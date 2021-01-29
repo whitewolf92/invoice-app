@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { CartContext } from "./contexts/CartContext";
 
-function App() {
+import "./App.css";
+
+import Main from "./pages/Main";
+import Product from "./pages/Product";
+import Cart from "./pages/Cart";
+
+const ContentYield = () => (
+  <Switch>
+    <Route exact path="/" component={Main} />
+    <Route exact path="/product/:id" component={Product} />
+    <Route exact path="/cart" component={Cart} />
+  </Switch>
+);
+
+const App = () => {
+  const { itemCount, clearCart } = useContext(CartContext);
+
+  const handleClearCart = event => {
+    event.preventDefault();
+    clearCart();
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <header className="App-header">
+          <ul>
+            <li>
+              <Link to="/">View Products</Link>
+            </li>
+            <li>
+              <Link to="/cart">Cart ({itemCount})</Link>
+            </li>
+          </ul>
+        </header>
+        <main>
+          <ContentYield />
+        </main>
+      </div>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

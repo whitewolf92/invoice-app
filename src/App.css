@@ -1,38 +1,74 @@
-.App {
-  text-align: center;
+/* 
+ ****************
+ * Resets
+ ****************
+ */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+	text-decoration: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* 
+ ****************
+ * Header
+ ****************
+ */
+
+header {
+	display: block;
+	width: 100%;
+	margin-bottom: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+header ul {
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+header ul li {
+	padding: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn {
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	padding: 12px 24px;
+	border-radius: 15px;
+	background: #efefef;
+	cursor: pointer;
+}
+
+.btn-danger {
+	background: #d9534f;
+	color: #fff;
+}
+
+.text-center {
+	text-align: center;
+}
+
+p {
+	margin-bottom: 16px;
+}
+
+/* 
+ ****************
+ * Body
+ ****************
+ */
+
+main {
+	width: 80%;
+	text-align: center;
+	margin: auto;
 }
