@@ -4,7 +4,8 @@ module.exports = {
 	theme: {
 		extend: {
 			flex: {
-				"30pc": "1 1 30%"
+				"30pc": "1 1 30%",
+				"70pc": "1 1 70%"
 			}
 		}
 	},

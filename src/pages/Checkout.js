@@ -71,10 +71,19 @@ const Checkout = () => {
 
 					<div className="flex justify-between border-b">
 						<div className="py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
-							Grand Total
+							Grand Total (USD)
 						</div>
 						<div className="py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
 							${total}
+						</div>
+					</div>
+
+					<div className="flex justify-between border-b">
+						<div className="py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
+							Grand Total (IDR)
+						</div>
+						<div className="py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+							${convertToIndo(total)}
 						</div>
 					</div>
 
@@ -85,10 +94,10 @@ const Checkout = () => {
 					)}
 
 					<div className="flex justify-between items-center border-b mb-10">
-						<div className="py-2 m-2 text-lg text-xl font-bold text-center text-gray-800">
+						<div className="flex-30pc py-2 m-2 text-lg text-xl font-bold text-gray-800">
 							Email
 						</div>
-						<div className="py-2 m-2">
+						<div className="flex-70pc py-2 m-2">
 							<input
 								className="appearance-none border border-transparent w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
 								type="text"
