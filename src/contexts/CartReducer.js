@@ -6,7 +6,6 @@ const setStorage = cartItems => {
 };
 
 export const calculateTotal = cartItems => {
-	setStorage(cartItems);
 	const itemCount = cartItems.reduce(
 		(total, product) => total + product.quantity,
 		0
@@ -26,25 +25,28 @@ export const CartReducer = (state, action) => {
 					quantity: 1
 				});
 			}
+			setStorage(state.cartItems);
 			return {
 				...state,
 				...calculateTotal(state.cartItems),
 				cartItems: [...state.cartItems]
 			};
 		case "REMOVE_ITEM":
+			const cartItems = state.cartItems.filter(
+				item => item.id !== action.payload.id
+			);
+			setStorage(state.cartItems);
 			return {
 				...state,
-				...calculateTotal(
-					state.cartItems.filter(item => item.id !== action.payload.id)
-				),
-				cartItems: [
-					...state.cartItems.filter(item => item.id !== action.payload.id)
-				]
+				...calculateTotal(cartItems),
+				cartItems: [...cartItems]
 			};
 		case "INCREASE_QTY":
 			state.cartItems[
 				state.cartItems.findIndex(item => item.id === action.payload.id)
 			].quantity++;
+
+			setStorage(state.cartItems);
 			return {
 				...state,
 				...calculateTotal(state.cartItems),
@@ -54,22 +56,33 @@ export const CartReducer = (state, action) => {
 			state.cartItems[
 				state.cartItems.findIndex(item => item.id === action.payload.id)
 			].quantity--;
+
+			setStorage(state.cartItems);
 			return {
 				...state,
 				...calculateTotal(state.cartItems),
 				cartItems: [...state.cartItems]
 			};
 		case "CHECKOUT":
+			setStorage(state.cartItems);
 			return {
-				cartItems: [],
+				...state,
+				...calculateTotal(state.cartItems),
+				checkoutInProgress: true
+			};
+		case "PAYMENT_STATUS":
+			setStorage([]);
+			return {
 				...calculateTotal([]),
-				checkout: true
+				checkoutInProgress: false,
+				cartItems: []
 			};
 		case "CLEAR":
+			setStorage([]);
 			return {
-				cartItems: [],
 				...calculateTotal([]),
-				checkout: false
+				checkoutInProgress: false,
+				cartItems: []
 			};
 		default:
 			return state;

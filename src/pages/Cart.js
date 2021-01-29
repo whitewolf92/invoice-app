@@ -1,7 +1,7 @@
-import { useContext, Fragment } from "react";
+import { Fragment, useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { CartContext } from "../contexts/CartContext";
-import { Link } from "react-router-dom";
 
 import "./Cart.css";
 
@@ -65,7 +65,7 @@ const CartItem = ({ product }) => {
 };
 
 const CartBtns = () => {
-  const { clearCart, handleCheckout } = useContext(CartContext);
+  const { clearCart } = useContext(CartContext);
 
   return (
     <Fragment>
@@ -77,15 +77,32 @@ const CartBtns = () => {
       >
         CLEAR
       </button>
-      <button
+      <Link
+        to="/checkout"
         type="button"
-        className="rounded-lg py-2 px-4 text-white shadow-lg text-center
+        className="inline rounded-lg py-2 px-4 text-white shadow-lg text-center
                 bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-        onClick={handleCheckout}
       >
         CHECKOUT
-      </button>
+      </Link>
     </Fragment>
+  );
+};
+
+const ShowSuccessMessage = () => {
+  return (
+    <div className="rounded-lg py-5 px-4 text-white shadow-lg text-center bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+      Your Payment has been made successfully. An email containing your invoice
+      will be send to you.
+    </div>
+  );
+};
+
+const ShowFailureMessage = () => {
+  return (
+    <div className="rounded-lg py-5 px-4 text-white shadow-lg text-center bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+      Your Payment has failed. Please try again.
+    </div>
   );
 };
 
@@ -102,29 +119,47 @@ const CartProducts = () => {
 };
 
 const Cart = () => {
-  const { total, cartItems, itemCount } = useContext(CartContext);
+  const { total, cartItems, itemCount, handlePaymentStatus } = useContext(
+    CartContext
+  );
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailure, setShowFailure] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("payment_status") === "success") {
+      handlePaymentStatus(true);
+      setShowSuccess(true);
+    } else if (params.get("payment_status") === "fail") {
+      handlePaymentStatus(false);
+      setShowFailure(true);
+    }
+  }, [handlePaymentStatus]);
 
   return (
     <Fragment>
       <div className="container">
+        {showSuccess && <ShowSuccessMessage />}
+        {showFailure && <ShowFailureMessage />}
         <div className="flex shadow-md my-10 bg-gray-50">
           <div className="w-3/4 p-10">
             <div className="flex justify-between border-b pb-10">
-              <h1 class="bold text-2xl">My Shopping Cart</h1>
-              <h2 class="font-semibold text-2xl">{itemCount} items</h2>
+              <h1 className="bold text-2xl">My Shopping Cart</h1>
+              <h2 className="font-semibold text-2xl">{itemCount} items</h2>
             </div>
 
             <div className="flex my-10">
-              <span class="font-semibold text-gray-600 text-xs uppercase w-2/5">
+              <span className="font-semibold text-gray-600 text-xs uppercase w-2/5">
                 Product Details
               </span>
-              <span class="font-semibold text-gray-600 text-xs uppercase w-1/5">
+              <span className="font-semibold text-gray-600 text-xs uppercase w-1/5">
                 Price
               </span>
-              <span class="font-semibold text-gray-600 text-xs uppercase w-1/5">
+              <span className="font-semibold text-gray-600 text-xs uppercase w-1/5">
                 Quantity
               </span>
-              <span class="font-semibold text-gray-600 text-xs uppercase w-1/5">
+              <span className="font-semibold text-gray-600 text-xs uppercase w-1/5">
                 Action
               </span>
             </div>

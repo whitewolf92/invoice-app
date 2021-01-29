@@ -3,13 +3,14 @@ import { CartReducer, calculateTotal } from "./CartReducer";
 
 export const CartContext = createContext();
 
-const storage = localStorage.getItem("cart")
+const storageCartItems = localStorage.getItem("cart")
 	? JSON.parse(localStorage.getItem("cart"))
 	: [];
+
 const initialState = {
-	cartItems: storage,
-	...calculateTotal(storage),
-	checkout: false
+	cartItems: storageCartItems,
+	...calculateTotal(storageCartItems),
+	checkoutInProgress: false
 };
 
 const CartContextProvider = ({ children }) => {
@@ -39,6 +40,10 @@ const CartContextProvider = ({ children }) => {
 		dispatch({ type: "CHECKOUT" });
 	};
 
+	const handlePaymentStatus = payload => {
+		dispatch({ type: "PAYMENT_STATUS", payload });
+	};
+
 	return (
 		<CartContext.Provider
 			value={{
@@ -48,6 +53,7 @@ const CartContextProvider = ({ children }) => {
 				decreaseQty,
 				clearCart,
 				handleCheckout,
+				handlePaymentStatus,
 				...state
 			}}
 		>

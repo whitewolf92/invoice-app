@@ -1,7 +1,7 @@
-import { Fragment, useState, useEffect, useContext } from "react";
-import apiAgent from "../api/apiAgent";
+import { useState, useEffect, useContext } from "react";
 
 import { CartContext } from "../contexts/CartContext";
+import apiAgent from "../api/apiAgent";
 
 import "./Product.css";
 
@@ -21,7 +21,7 @@ const Product = props => {
 			setLoading(false);
 		};
 		getProduct();
-	}, []);
+	}, [props.match.params.id]);
 
 	const existInCart = product =>
 		!!cartItems.find(item => item.id === product.id);
@@ -46,7 +46,11 @@ const Product = props => {
 
 	return (
 		<div className="text-center mx-auto w-80">
-			<img className="mx-auto mb-10 max-h-40" src={product.image} />
+			<img
+				className="mx-auto mb-10 max-h-40"
+				src={product.image}
+				alt="product"
+			/>
 			<span className="block mb-5 text-xl">{product.title}</span>
 			<span className="block mb-5 text-lg">${product.price}</span>
 			<span className="block mb-5">{product.description}</span>

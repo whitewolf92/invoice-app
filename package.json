@@ -10,16 +10,21 @@
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "9.8.6",
     "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "postcss": "7.0.34",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "xendit-node": "^1.4.0"
   },
   "scripts": {
     "start": "craco start",
+    "node": "NODE_ENV=development node server.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

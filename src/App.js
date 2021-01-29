@@ -7,22 +7,19 @@ import "./App.css";
 import Main from "./pages/Main";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const ContentYield = () => (
   <Switch>
     <Route exact path="/" component={Main} />
     <Route exact path="/product/:id" component={Product} />
     <Route exact path="/cart" component={Cart} />
+    <Route exact path="/checkout" component={Checkout} />
   </Switch>
 );
 
 const App = () => {
-  const { itemCount, clearCart } = useContext(CartContext);
-
-  const handleClearCart = event => {
-    event.preventDefault();
-    clearCart();
-  };
+  const { itemCount } = useContext(CartContext);
 
   return (
     <BrowserRouter>

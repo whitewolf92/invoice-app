@@ -1,5 +1,6 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import apiAgent from "../api/apiAgent";
 
 import "./Main.css";
@@ -7,7 +8,7 @@ import "./Main.css";
 const ProductItem = ({ id, title, price, image }) => {
 	return (
 		<div className="text-center mb-20 flex-30pc">
-			<img className="mx-auto max-h-24" src={image} />
+			<img className="mx-auto max-h-24" src={image} alt="product" />
 			<span className="block text-xl mb-5">{title}</span>
 			<span className="block text-lg bold mb-5">${price}</span>
 			<Link
