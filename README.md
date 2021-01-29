@@ -14,7 +14,7 @@ You’ll need the following
 
 ### Running the Node Server
 
-You need to modify the environment variables as stated in [`.env.sample`](.env.sample) to your to **.env.development**. In this case, you need to set these values:
+You need to modify the environment variables as stated in [`.env.sample`](.env.sample) and rename it to **.env.development**. In this case, you need to set these values:
 
 - `process.env.REACT_APP_API_BASE_URL` -> Fake store API which I used to retrieve products
 - `process.env.REACT_APP_SERVER_BASE_API_URL` -> Express Server API URl = Default is http://localhost:8080
@@ -30,7 +30,7 @@ Install dependencies using yarn.
 
 ### `yarn start`
 
-Runs the app in the development mode.\
+Runs the ReactJs app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
