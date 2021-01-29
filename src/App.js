@@ -27,17 +27,17 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className="App">
-        <header className="App-header">
-          <ul>
-            <li>
+        <header className="App-header block w-full py-6 mb-20 border-b-2">
+          <ul className="flex flex-wrap justify-center">
+            <li className="px-6">
               <Link to="/">View Products</Link>
             </li>
-            <li>
-              <Link to="/cart">Cart ({itemCount})</Link>
+            <li className="px-6">
+              <Link to="/cart">Cart ({itemCount} items)</Link>
             </li>
           </ul>
         </header>
-        <main>
+        <main className="container mx-auto">
           <ContentYield />
         </main>
       </div>

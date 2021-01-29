@@ -37,22 +37,27 @@ const Product = props => {
 	};
 
 	if (loading) {
-		return <div>Loading Product in Progress</div>;
+		return (
+			<div className="block text-center text-xl">
+				Loading Product in Progress
+			</div>
+		);
 	}
 
 	return (
-		<div className="product">
-			<img src={product.image} />
-			<h1>{product.title}</h1>
-			<h2>${product.price}</h2>
-			<h3>{product.description}</h3>
+		<div className="text-center mx-auto w-80">
+			<img className="mx-auto mb-10 max-h-40" src={product.image} />
+			<span className="block mb-5 text-xl">{product.title}</span>
+			<span className="block mb-5 text-lg">${product.price}</span>
+			<span className="block mb-5">{product.description}</span>
 			<button
 				onClick={
 					existInCart(product)
 						? handleIncrease(product)
 						: handleAddProduct(product)
 				}
-				className="btn"
+				className="rounded-lg py-2 px-4 text-white shadow-lg text-center
+                bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
 			>
 				Add to cart
 			</button>
