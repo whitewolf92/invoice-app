@@ -16,6 +16,8 @@ The free api provides the product in USD dollars. I had to convert them via an e
 
 Requirements did not mentioned that the cart page must allow the user to update the quantity. I added it in because most shopping cart design would allow users to change the products quantity on the cart page.
 
+There wasn't any requirement to maintain the state of the cart after a user has closed and reopened the browser tab, but I felt its a common requirement so I decided to use **local storage** to store the cart details. 
+
 Creating an invoice requires the email, so I had to redirect the user to a checkout page where they have to enter their email and then press the **Process to Payment** button. Once click, they would be redirect to Xendit checkout.
 
 ### Challenges
