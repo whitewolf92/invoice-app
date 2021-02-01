@@ -30,7 +30,7 @@ Tidy the code further, make it into a plugin/package which people can install vi
 
 Try to setup integration via dialog pop-up (a.k.a. modal iframe) and redirect.
 
-Add the shopping cart items into invoice but will have for invoice to have the necessary features. 
+Add the shopping cart items into invoice but will have to wait for invoice to have the necessary features. 
 
 Write unit test and integration test to test the robustness of the application.
 
