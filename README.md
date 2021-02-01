@@ -16,9 +16,10 @@ You’ll need the following
 
 You need to modify the environment variables as stated in [`.env.sample`](.env.sample) and rename it to **.env.development**. In this case, you need to set these values:
 
-- `process.env.REACT_APP_API_BASE_URL` -> Fake store API which I used to retrieve products
-- `process.env.REACT_APP_SERVER_BASE_API_URL` -> Express Server API URl = Default is http://localhost:8080
-- `process.env.REACT_APP_XENDIT_BASE_API_URL` -> Xendit API URL = https://api.xendit.co/v2
+- `REACT_APP_API_BASE_URL` -> Fake store API which I used to retrieve products
+- `REACT_APP_SERVER_BASE_API_URL` -> Express Server API URl = Default is http://localhost:8080
+- `REACT_APP_XENDIT_BASE_API_URL` -> Xendit API URL = https://api.xendit.co/v2
+- `XENDIT_SECRET_KEY` -> Your secret key
 
 ## Available Scripts
 
