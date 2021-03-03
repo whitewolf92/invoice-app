@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { format } from "date-fns";
 import {
   Document,
   Page,
@@ -7,7 +8,6 @@ import {
   View,
   StyleSheet,
   PDFDownloadLink,
-  BlobProvider,
   Image,
 } from "@react-pdf/renderer";
 
@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 220,
   },
   link: {
-    margin: 15,
+    fontSize: 14,
+    marginBottom: 30,
     textAlign: "center",
   },
   header: {
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "center",
     color: "#2F3044",
-    marginBottom: 40,
+    marginBottom: 30,
   },
   body: {
     paddingTop: 35,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 15,
     textDecoration: "underline",
   },
@@ -70,10 +71,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   border: {
-    marginTop: 10,
-    borderBottom: "5px solid #000",
-    marginBottom: 10,
-    width: 1000,
+    marginTop: 15,
+    marginBottom: 30,
+    borderTop: "1 solid black",
+    display: "flex",
+    flexDirection: "column",
   },
   text: {
     margin: 12,
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
 });
 
 const BankText = ({ bankData }) => {
-  console.log(bankData);
   return (
     <Fragment>
       <Text style={styles.paymentLabel}>Bank</Text>
@@ -103,24 +104,23 @@ const BankText = ({ bankData }) => {
       <Text style={styles.paymentContent}>{bankData.account_holder_name}</Text>
       <Text style={styles.paymentLabel}>Amount to Pay</Text>
       <Text style={styles.paymentContent}>IDR {bankData.transfer_amount}</Text>
-      <Text style={styles.border}>&nbsp;</Text>
+      <View style={styles.border}></View>
     </Fragment>
   );
 };
 
-const MerchantText = ({ merchantData }) => {
-  console.log(merchantData);
+const RetailerText = ({ retailerData }) => {
   return (
     <Fragment>
       <Text style={styles.paymentLabel}>Retailer Outlet Name</Text>
       <Text style={styles.paymentContent}>
-        {merchantData.retail_outlet_name}
+        {retailerData.retail_outlet_name}
       </Text>
       <Text style={styles.paymentLabel}>Payment Code</Text>
-      <Text style={styles.paymentContent}>{merchantData.payment_code}</Text>
+      <Text style={styles.paymentContent}>{retailerData.payment_code}</Text>
       <Text style={styles.paymentLabel}>Amount to Pay</Text>
       <Text style={styles.paymentContent}>
-        IDR {merchantData.transfer_amount}
+        IDR {retailerData.transfer_amount}
       </Text>
       <Text style={styles.border}>&nbsp;</Text>
     </Fragment>
@@ -142,8 +142,12 @@ const MyPdf = ({ data }) => {
 
         <Text style={styles.paymentTitle}>IDR{data.amount}</Text>
         <Text style={{ ...styles.paymentTitleTwo }}>
-          due on {data.expiry_date}
+          due on {format(new Date(data.expiry_date), "dd MMMM yyyy HH:mm a")}
         </Text>
+
+        <Link style={styles.link} src={data.invoice_url}>
+          Click here for more payment options.
+        </Link>
 
         <Text style={styles.title}>Description</Text>
         <Text style={styles.content}>{data.description}</Text>
@@ -156,11 +160,12 @@ const MyPdf = ({ data }) => {
           <BankText bankData={bankData} key={index} />
         ))}
 
-        <Text style={styles.title} break>
-          Retail Outlets
+        <Text style={styles.header} break>
+          PAYMENT METHODS
         </Text>
-        {data.available_retail_outlets.map((merchantData, index) => (
-          <MerchantText merchantData={merchantData} key={index} />
+        <Text style={styles.title}>Retail Outlets</Text>
+        {data.available_retail_outlets.map((retailerData, index) => (
+          <RetailerText retailerData={retailerData} key={index} />
         ))}
         <Text
           style={styles.pageNumber}
@@ -186,9 +191,7 @@ const InvoicePdfLink = (props) => {
       document={<MyPdf data={props.data} />}
       fileName="invoice.pdf"
     >
-      {({ blob, url, loading, error }) =>
-        loading ? "Loading document..." : "Download Invoice"
-      }
+      {({ loading }) => (loading ? "Loading document..." : "Download Invoice")}
     </PDFDownloadLink>
   );
 };
