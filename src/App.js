@@ -3,42 +3,20 @@ import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import { CartContext } from "./contexts/CartContext";
 
 import "./App.css";
-
 import Main from "./pages/Main";
-import Product from "./pages/Product";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-
-const ContentYield = () => (
-  <Switch>
-    <Route exact path="/" component={Main} />
-    <Route exact path="/product/:id" component={Product} />
-    <Route exact path="/cart" component={Cart} />
-    <Route exact path="/checkout" component={Checkout} />
-  </Switch>
-);
 
 const App = () => {
-  const { itemCount } = useContext(CartContext);
-
   return (
-    <BrowserRouter>
-      <div className="App">
-        <header className="App-header block w-full py-6 mb-20 border-b-2">
-          <ul className="flex flex-wrap justify-center">
-            <li className="px-6">
-              <Link to="/">View Products</Link>
-            </li>
-            <li className="px-6">
-              <Link to="/cart">Cart ({itemCount} items)</Link>
-            </li>
-          </ul>
-        </header>
-        <main className="container mx-auto">
-          <ContentYield />
-        </main>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <header className="App-header block w-full py-6 mb-10 border-b-2">
+        <div className="flex flex-wrap justify-center text-3xl">
+          Xendit PDF Exporter
+        </div>
+      </header>
+      <main className="container mx-auto">
+        <Main />
+      </main>
+    </div>
   );
 };
 

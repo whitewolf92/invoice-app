@@ -1,62 +1,84 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import InvoicePdfLink from "../components/InvoicePdf";
 
 import apiAgent from "../api/apiAgent";
 
-import "./Main.css";
+const Form = ({ handleSetData }) => {
+  const [invoiceID, setInvoiceID] = useState("603f0b6e768f35401f33a9fc");
+  const [message, setMessage] = useState("");
+  const [exportInProgress, setExportInProgress] = useState(false);
 
-const ProductItem = ({ id, title, price, image }) => {
-	return (
-		<div className="text-center mb-20 flex-30pc">
-			<img className="mx-auto max-h-24" src={image} alt="product" />
-			<span className="block text-xl mb-5">{title}</span>
-			<span className="block text-lg bold mb-5">${price}</span>
-			<Link
-				className="rounded-lg py-2 px-4 text-white shadow-lg text-center
-                bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-				to={`/product/${id}`}
-			>
-				View Details
-			</Link>
-		</div>
-	);
-};
+  const handleChange = (event) => {
+    event.preventDefault();
+    setInvoiceID(event.target.value);
+  };
 
-const ProductList = ({ products }) => {
-	return (
-		<div className="flex flex-wrap justify-between">
-			{products.map(item => (
-				<ProductItem key={item.id} {...item} />
-			))}
-		</div>
-	);
+  const handleExport = async (event) => {
+    event.preventDefault();
+
+    if (invoiceID?.length === 0) {
+      setMessage("Invalid Invoice ID. Please enter again.");
+      return;
+    } else {
+      setMessage("");
+    }
+
+    const params = {
+      invoiceID,
+    };
+
+    const result = await apiAgent.Invoice.get(params);
+
+    handleSetData(result.data);
+    console.log(result.data);
+  };
+
+  return (
+    <Fragment>
+      <div className="flex shadow-md my-10 bg-gray-50 w-2/4 mx-auto">
+        <div className="w-full px-8 py-10 bg-gray-100">
+          {message && message.length > 0 && (
+            <div className="block text-pink-600 pt-3 pb-0 text-center">
+              {message}
+            </div>
+          )}
+          <div className="flex justify-between items-center border-b mb-10">
+            <div className="flex-30pc py-2 m-2 text-lg text-xl font-bold text-gray-800">
+              Invoice ID
+            </div>
+            <div className="flex-70pc py-2 m-2">
+              <input
+                className="appearance-none border border-transparent w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                type="text"
+                label="invoiceID"
+                value={invoiceID}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <button
+            onClick={handleExport}
+            disabled={exportInProgress}
+            className="block mx-auto rounded-lg py-2 px-4 text-white shadow-lg text-center
+                bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+          >
+            {exportInProgress ? "Please wait..." : "Download Invoice"}
+          </button>
+        </div>
+      </div>
+    </Fragment>
+  );
 };
 
 const Main = () => {
-	const [loading, setLoading] = useState(false);
-	const [products, setProducts] = useState([]);
+  const [data, setData] = useState();
 
-	useEffect(() => {
-		setLoading(true);
-
-		const getProducts = async () => {
-			const resp = await apiAgent.Product.getAll({ limit: 6 });
-
-			setProducts(resp.data);
-			setLoading(false);
-		};
-		getProducts();
-	}, []);
-
-	if (loading) {
-		return (
-			<div className="block text-center text-xl">
-				Loading Products in Progress
-			</div>
-		);
-	}
-
-	return <ProductList products={products} />;
+  return (
+    <Fragment>
+      <Form handleSetData={setData} />
+      <InvoicePdfLink data={data} />
+    </Fragment>
+  );
 };
 
 export default Main;
