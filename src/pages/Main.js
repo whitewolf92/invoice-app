@@ -16,8 +16,11 @@ const Form = ({ handleSetData }) => {
   const handleExport = async (event) => {
     event.preventDefault();
 
+    setExportInProgress(true);
+
     if (invoiceID?.length === 0) {
       setMessage("Invalid Invoice ID. Please enter again.");
+      setExportInProgress(false);
       return;
     } else {
       setMessage("");
@@ -27,10 +30,16 @@ const Form = ({ handleSetData }) => {
       invoiceID,
     };
 
-    const result = await apiAgent.Invoice.get(params);
+    try {
+      const result = await apiAgent.Invoice.get(params);
+      handleSetData(result.data);
+      console.log(result.data);
+    } catch (error) {
+      setMessage("Invoice not found. Please enter again.");
+      console.log(error);
+    }
 
-    handleSetData(result.data);
-    console.log(result.data);
+    setExportInProgress(false);
   };
 
   return (
@@ -38,7 +47,7 @@ const Form = ({ handleSetData }) => {
       <div className="flex shadow-md my-10 bg-gray-50 w-2/4 mx-auto">
         <div className="w-full px-8 py-10 bg-gray-100">
           {message && message.length > 0 && (
-            <div className="block text-pink-600 pt-3 pb-0 text-center">
+            <div className="block text-pink-600 pb-0 text-center">
               {message}
             </div>
           )}
@@ -62,7 +71,7 @@ const Form = ({ handleSetData }) => {
             className="block mx-auto rounded-lg py-2 px-4 text-white shadow-lg text-center
                 bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
           >
-            {exportInProgress ? "Please wait..." : "Download Invoice"}
+            {exportInProgress ? "Please wait..." : "Generate Invoice"}
           </button>
         </div>
       </div>
@@ -76,7 +85,11 @@ const Main = () => {
   return (
     <Fragment>
       <Form handleSetData={setData} />
-      <InvoicePdfLink data={data} />
+      <div className="flex shadow-md my-10 bg-gray-50 w-2/4 mx-auto">
+        <div className="w-full px-8 py-10 bg-gray-100">
+          <InvoicePdfLink data={data} />
+        </div>
+      </div>
     </Fragment>
   );
 };

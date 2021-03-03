@@ -1,7 +1,3 @@
-import { useContext } from "react";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-import { CartContext } from "./contexts/CartContext";
-
 import "./App.css";
 import Main from "./pages/Main";
 

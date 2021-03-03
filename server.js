@@ -26,32 +26,6 @@ app.get("/ping", (req, res) => {
   return res.send("pong");
 });
 
-app.post("/invoices", async (req, res) => {
-  const { Invoice } = xendit;
-  const invoiceSpecificOptions = {};
-  const inv = new Invoice(invoiceSpecificOptions);
-
-  const {
-    externalID,
-    payerEmail,
-    description,
-    amount,
-    successRedirectURL,
-    failureRedirectURL,
-  } = req.body;
-
-  const response = await inv.createInvoice({
-    externalID,
-    payerEmail,
-    description,
-    amount,
-    successRedirectURL,
-    failureRedirectURL,
-  });
-
-  return res.json(response);
-});
-
 app.get("/invoices", async (req, res) => {
   const { Invoice } = xendit;
   const invoiceSpecificOptions = {};
@@ -59,13 +33,15 @@ app.get("/invoices", async (req, res) => {
 
   const { invoiceID } = req.query;
 
-  console.log(req);
+  try {
+    const response = await inv.getInvoice({
+      invoiceID,
+    });
 
-  const response = await inv.getInvoice({
-    invoiceID,
-  });
-
-  return res.json(response);
+    return res.json(response);
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 app.listen(process.env.PORT || 8080);
