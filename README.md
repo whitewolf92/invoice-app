@@ -24,6 +24,10 @@ You need to modify the environment variables as stated in [`.env.sample`](.env.s
 
 In the project directory, you can run:
 
+### `yarn test OR yarn test:coverage`
+
+Unit Testing
+
 ### `yarn install`
 
 Install dependencies using yarn.

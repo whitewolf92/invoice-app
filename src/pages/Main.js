@@ -31,12 +31,12 @@ const Form = ({ handleSetData }) => {
     };
 
     try {
-      const result = await apiAgent.Invoice.get(params);
+      const result = await apiAgent.Invoice.getById(params);
       handleSetData(result.data);
       console.log(result.data);
     } catch (error) {
       setMessage("Invoice not found. Please enter again.");
-      console.log(error);
+      // console.log(error);
     }
 
     setExportInProgress(false);
@@ -59,13 +59,14 @@ const Form = ({ handleSetData }) => {
               <input
                 className="appearance-none border border-transparent w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-md rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 type="text"
-                label="invoiceID"
+                aria-label="invoice-id"
                 value={invoiceID}
                 onChange={handleChange}
               />
             </div>
           </div>
           <button
+            aria-label="search-btn"
             onClick={handleExport}
             disabled={exportInProgress}
             className="block mx-auto rounded-lg py-2 px-4 text-white shadow-lg text-center

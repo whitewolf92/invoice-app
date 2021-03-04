@@ -1,5 +1,4 @@
 import "./App.css";
-import "regenerator-runtime/runtime";
 import Main from "./pages/Main";
 
 const App = () => {
