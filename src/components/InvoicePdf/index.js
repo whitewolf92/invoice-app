@@ -185,8 +185,6 @@ const PaymentInfo = ({ data }) => {
 
 // Create Document Component
 const MyPdf = ({ data }) => {
-  console.log(data);
-
   return (
     <Document>
       <Page style={styles.body}>
