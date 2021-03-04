@@ -6,11 +6,12 @@
     "@craco/craco": "^6.1.0",
     "@react-pdf/renderer": "^1.6.13",
     "@tailwindcss/postcss7-compat": "^2.0.2",
-    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "9.8.6",
     "axios": "^0.21.1",
+    "core-js": "^3.9.1",
     "cors": "^2.8.5",
     "date-fns": "^2.18.0",
     "dotenv": "^8.2.0",
@@ -20,6 +21,7 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "regenerator-runtime": "^0.13.7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "web-vitals": "^0.2.4",
     "xendit-node": "^1.4.0"
@@ -28,8 +30,14 @@
     "start": "craco start",
     "node": "NODE_ENV=development node server.js",
     "build": "craco build",
-    "test": "craco test",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -48,5 +56,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/preset-react": "^7.12.13",
+    "jest": "^26.6.3"
   }
 }
