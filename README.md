@@ -1,6 +1,6 @@
-# Xendit Shopping Cart Demo
+# Xendit PDF Demo
 
-This demo is a mock shopping cart store that uses Xendit checkout for invoicing and payment processing. The backend uses a simple ExpressJS server to proxy the request from client-side to the Xendit API Gateway, while the frontend uses ReactJs.
+This demo is a pdf export tool that relies on Xendit invoice api for the data. The backend uses a simple ExpressJS server to proxy the request from client-side to the Xendit API Gateway, while the frontend uses ReactJs.
 
 ## Getting Started
 
