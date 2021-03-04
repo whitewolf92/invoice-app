@@ -4,7 +4,7 @@ import InvoicePdfLink from "../components/InvoicePdf";
 import apiAgent from "../api/apiAgent";
 
 const Form = ({ handleSetData }) => {
-  const [invoiceID, setInvoiceID] = useState("603f0b6e768f35401f33a9fc");
+  const [invoiceID, setInvoiceID] = useState("");
   const [message, setMessage] = useState("");
   const [exportInProgress, setExportInProgress] = useState(false);
 

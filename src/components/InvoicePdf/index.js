@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: 15,
     textDecoration: "underline",
   },
@@ -82,6 +82,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "justify",
   },
+  paidTitle: {
+    fontSize: 24,
+    color: "green",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  paidSection: {
+    marginBottom: 10,
+    flexDirection: "row",
+  },
+  paidSectionLabel: {
+    fontSize: 16,
+    color: "#6E7183",
+  },
+  paidSectionText: {
+    fontSize: 16,
+  },
   pageNumber: {
     position: "absolute",
     fontSize: 12,
@@ -104,7 +121,7 @@ const BankText = ({ bankData }) => {
       <Text style={styles.paymentContent}>{bankData.account_holder_name}</Text>
       <Text style={styles.paymentLabel}>Amount to Pay</Text>
       <Text style={styles.paymentContent}>IDR {bankData.transfer_amount}</Text>
-      <View style={styles.border}></View>
+      <View style={styles.border} />
     </Fragment>
   );
 };
@@ -127,6 +144,45 @@ const RetailerText = ({ retailerData }) => {
   );
 };
 
+const PaymentInfo = ({ data }) => {
+  return (
+    <Fragment>
+      <View style={styles.border} />
+      <Text style={styles.paidTitle}>Your payment was successful!</Text>
+      <View style={styles.paidSection}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.paidSectionLabel}>Amount Paid</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.paidSectionText}>
+            IDR {data.adjusted_received_amount}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.paidSection}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.paidSectionLabel}>Date Paid</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.paidSectionText}>
+            {format(new Date(data.paid_at), "dd MMMM yyyy HH:mm a")}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.paidSection}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.paidSectionLabel}>Payment Channel</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.paidSectionText}>
+            {data.payment_channel.replace("_", " ")}
+          </Text>
+        </View>
+      </View>
+    </Fragment>
+  );
+};
+
 // Create Document Component
 const MyPdf = ({ data }) => {
   console.log(data);
@@ -145,10 +201,15 @@ const MyPdf = ({ data }) => {
           due on {format(new Date(data.expiry_date), "dd MMMM yyyy HH:mm a")}
         </Text>
 
-        <Link style={styles.link} src={data.invoice_url}>
-          Click here for more payment options.
-        </Link>
+        {data.status !== "PAID" && (
+          <Link style={styles.link} src={data.invoice_url}>
+            Click here for more payment options.
+          </Link>
+        )}
 
+        {data.status === "PAID" && <PaymentInfo data={data} />}
+
+        <View style={styles.border} />
         <Text style={styles.title}>Description</Text>
         <Text style={styles.content}>{data.description}</Text>
 
@@ -156,7 +217,7 @@ const MyPdf = ({ data }) => {
           PAYMENT METHODS
         </Text>
         <Text style={styles.title}>Bank Transfer</Text>
-        {data.available_banks.map((bankData, index) => (
+        {(data.available_banks || []).map((bankData, index) => (
           <BankText bankData={bankData} key={index} />
         ))}
 
@@ -164,7 +225,7 @@ const MyPdf = ({ data }) => {
           PAYMENT METHODS
         </Text>
         <Text style={styles.title}>Retail Outlets</Text>
-        {data.available_retail_outlets.map((retailerData, index) => (
+        {(data.available_retail_outlets || []).map((retailerData, index) => (
           <RetailerText retailerData={retailerData} key={index} />
         ))}
         <Text
@@ -181,7 +242,7 @@ const MyPdf = ({ data }) => {
 
 const InvoicePdfLink = (props) => {
   if (!props.data) {
-    return <div></div>;
+    return <div />;
   }
 
   return (
